@@ -1,0 +1,102 @@
+
+body {
+    backgroundX: gray url('background.jpg');
+    font-size: 1.5em!important;
+}
+
+h1 {
+    font: Trebuchet MS;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.no_under_line {
+    text-decoration: none!important;
+}
+
+.white-link a {
+    color: white;
+    text-decoration: none!important;
+    font-size: 1.2em!important;
+}
+
+.white-link a:hover{
+    color: white!important;
+    text-decoration: none!important;
+
+}
+
+.white-link a:active{
+    color: white!important;
+    text-decoration: none!important;
+
+}
+
+#black_font {
+    color:black!important;
+}
+
+
+#product_detail_image {
+    max-width: 300px;
+    float: left;
+    margin: 0 40px;
+}
+
+#product_cart_image {
+    max-width: 50px;
+}
+
+#product_thumbnail {
+    float: left;
+    margin: 10px 0;
+    max-width: 235px;
+}
+
+.product_detail_box {
+    margin-top: 30px;
+    width: 95%;
+}
+
+/*Colors of t-shirt to choose in product detail.*/
+.color_box {
+    width: 25px;
+    height: 25px;
+    border: 1px;
+    border-style: outset;
+    margin-right: 5px;
+    display: inline-block;
+    
+}
+
+.green_price {
+    color: green;
+    font-size: 1.2em;
+}
+
+.close_cross a {
+    color: rgb(0, 0, 0)!important; 
+    opacity: 1;
+    text-decoration: none!important;
+    padding-right:30px!important;
+}
+
+.cart td{
+    vertical-align: middle!important;
+    text-align: center;
+  }
+
+.cart th{
+    text-align: center;
+    }
+
+.cart_content {
+    width: 60%;
+    margin: auto;
+
+}
+
+
+
