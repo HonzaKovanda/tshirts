@@ -12,12 +12,14 @@ class Category(models.Model):
 class Color(models.Model):
     title = models.CharField(max_length=50)
     hexacode = models.CharField(max_length=50, null=True)
+    nomen_code = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.title
 
 class Size(models.Model):
     title = models.CharField(max_length=10)
+    nomen_code = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.title
@@ -32,7 +34,7 @@ class Tshirt(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=300)
     slug = models.SlugField()
-    nomenklatura = models.IntegerField(null=True)
+    nomen_code = models.IntegerField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True)
     size = models.ManyToManyField(Size)

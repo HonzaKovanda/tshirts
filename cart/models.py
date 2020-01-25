@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.contrib.auth import get_user_model
-from products.models import Tshirt
+from products.models import Tshirt, Size
 
 from products.apps import get_price_with_tax
 
@@ -14,6 +14,7 @@ User = get_user_model()
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Tshirt, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.SET_NULL, null=True, default='1')
     quantity = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -53,14 +54,3 @@ class Order(models.Model):
             total = total + get_price_with_tax(order_item.get_total())
         
         return total
-"""
-    # Gets total price of all items in shopping cart.
-
-    def get_totals(self):
-        item_qs = self.item.all()
-        totals = 0
-        for i in item_qs:
-            totals += (self.item.price * self.quantity)
-
-        return totals
-"""

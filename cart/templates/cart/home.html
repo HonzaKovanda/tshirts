@@ -22,6 +22,7 @@
         <tr>
             <th scope="col">Tričko</th>
             <th scope="col">Barva</th>
+            <th scope="col">Velikost</th>
             <th scope="col">Množství</th>
             <th scope="col"></th>
             <th scope="col">Cena za kus</th>
@@ -34,14 +35,27 @@
 <tr>
     <td><a href="{% url 'products:detail' item.item.slug %}" id="black_font">{{ item.item.title }}</a></td>
     <td>{{ item.item.color}}</td>
-    <td><a href="{% url 'cart:remove' item.item.slug %}" class="glyphicon glyphicon-minus-sign text-info no_under_line"></a>&nbsp;&nbsp;  {{ item.quantity }} Ks &nbsp;
-        <a href="{% url 'cart:add_item' item.item.slug %}" class="glyphicon glyphicon-plus-sign text-info no_under_line" ></a></td>
+    <td>{{ item.size}}</td>
+    <td><a href="{% url 'cart:remove' item.item.slug item.size.id %}" class="glyphicon glyphicon-minus-sign text-info no_under_line"></a>&nbsp;&nbsp;  {{ item.quantity }} Ks&nbsp;
+        <a href="{% url 'cart:add_item' item.item.slug item.size.id %}" class="glyphicon glyphicon-plus-sign text-info no_under_line"></a></td>
+        
+    <!--<td>
+        <form action="% url 'cart:add_iteYm' item.item.slug %" method="post">
+            % csrf_token %
+            <input  type="hidden" name="size" value="{{ item.size.id }}">
+            <button type="submit" class="glyphicon glyphicon-plus-sign text-info no_under_line"></button>
+            <input type="submit" class="btn glyphicon glyphicon-plus-sign text-info no_under_line">
+            <button type="submit"><span class="glyphicon glyphicon-plus-sign text-info no_under_line"></span></button>
+        </form>
+    </td>-->
+    
+    
+
+
+
     <td><a href="{% url 'products:detail' item.item.slug %}"><img src="{{ item.item.image.url }}" id="product_cart_image"></a></td>
     <td><span class="green_price">{{ item.item.price_with_tax|intcomma }} Kč <small>s DPH</small></span></br> </td>
     <td><span class="green_price">{{ item.get_total_with_tax|intcomma }} Kč <small>s DPH</small></span></br>{{ item.get_total|intcomma }} Kč <small>bez DPH</small></td>  
-    <!--<td><button type="button" class="close close_cross" aria-label="Close" onclick="return confirm('Opravdu chcete odstranit toto tričko?');"><a href="{% url 'cart:delete' item.item.slug %}">
-        <span aria-hidden="true">&times;</span></a></button></td>-->
-    <!--<td><a href="#myModal{{ forloop.counter }}" type="button" class="close close_cross" data-toggle="modal"><span aria-hidden="true">&times;</span></a></td>-->
     <td><a href="#myModal{{ forloop.counter }}" type="button" class="glyphicon glyphicon-remove no_under_line" data-toggle="modal"></a></td>
     
 
@@ -64,7 +78,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
-                <button type="button" class="btn btn-primary white-link"><a href="{% url 'cart:delete' item.item.slug %}">Odstranit</a></button>
+                <button type="button" class="btn btn-primary white-link"><a href="{% url 'cart:delete' item.item.slug item.size.id %}">Odstranit</a></button>
             </div>
         </div>
     </div>
@@ -72,7 +86,7 @@
 
 {% endfor %}
 <tr class="table-secondary">
-<td colspan="4"></td>
+<td colspan="5"></td>
 <td><b> Cena celkem: </b></td>    
 <td> <span class="green_price">{{ order.get_totals_with_tax|intcomma }} Kč<small>s DPH</small></span></br>{{ order.get_totals|intcomma }} Kč<small>bez DPH</small></td>
 <td></td>

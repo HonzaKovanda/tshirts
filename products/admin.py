@@ -10,7 +10,7 @@ from django.forms import TextInput
 
 class TshirtAdmin(admin.ModelAdmin):
 
-    list_display = ['title', 'id', 'nomenklatura', 'category', 'color', 'price', 'supplier', 'created', 'image']
+    list_display = ['title', 'id', 'nomen_code', 'category', 'color', 'price', 'supplier', 'created', 'image']
 
     formfield_overrides = {
     models.IntegerField: {'widget': TextInput(attrs={'size':'40'})},

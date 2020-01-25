@@ -7,4 +7,5 @@ app_name='products'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
     path('detail/<slug>/', views.tshirt_detail, name='detail'),
+    path('update_description/<slug>/', views.DescriptionUpdate.as_view(), name='update_description'),
 ]

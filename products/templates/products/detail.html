@@ -6,18 +6,33 @@
     <img id="product_detail_image" class=" rounded-top border img-thumbnail" src="{{ tshirt.image.url }}" >
     <ul>
     <li><h3>{{ tshirt.title }}</h3></li>
-    <li><p>{{ tshirt.description }}</p></li>
+    <li><div style="float:right"><a href="{% url 'products:update_description' tshirt.slug %}">
+        <span class="glyphicon glyphicon-pencil text-dark"></span></a></div></li>
+    <li><p>{% if 'detail' in request.path %}{{ tshirt.description }}{% endif %}</p>
+        {% block content_desc_edit %}
+        {% endblock %}</li>
     <li><b>Barva:</b> {{ tshirt.color}}</li>
-    <li><b>Dostupné barvy:</b> </br>{% for tshirt in all_colors %}<a href="{% url 'products:detail' tshirt.slug %}"><div class="color_box" style="background-color:{{ tshirt.color.hexacode }}"></div></a>{% endfor %}</li>
-    <li><p><b>Velikosti:</b> {% for size in tshirt.size.all %}{{ size }}&nbsp;&nbsp;{% endfor %}</p></li>
+    <li><b>Vyber si barvu:</b> </br>{% for tshirt in all_colors %}<a href="{% url 'products:detail' tshirt.slug %}">
+        <div class="color_box" style="background-color:{{ tshirt.color.hexacode }}"></div></a>{% endfor %}</li>
+    <li><b>Vyber si velikost:</b>
+
+        <form id="sizeForm" action="{% url 'cart:add_item_from_detail' tshirt.slug %}" method="post">
+            {% csrf_token %}
+            {% for size in tshirt.size.all  %}
+
+                <input type="radio"  name="size" id="size{{ forloop.counter }}" value="{{ size.id }}" {% if size.id == 3 %} checked {% endif %}>
+                <label for="size{{ forloop.counter }}"> {{ size.title }} </label>    
+
+            {% endfor %}
+        </form> 
+
+    </li>
     <li class="green_price">Cena s DPH: {{ tshirt.price_with_tax }} Kč</li>
     <li><p>Cena bez DPH: {{ tshirt.price }} Kč</p></li>
-    <li><p><button type="button" class="btn btn-success btn-lg text-white"><a href="{% url 'cart:add_item' tshirt.slug %}">Přidat do košíku</a></button>
-    <button type="button" class="btn btn-primary btn-lg text-white" style="float:right"><a href="{% url 'products:home' %}">Zpět</a></button></p></li>
+    <li><input type="submit" value="Přidat do košíku" form="sizeForm" class="btn btn-success btn-lg text-white">
+        <button type="button" class="btn btn-primary btn-lg text-white" style="float:right"><a href="{% url 'products:home' %}">Zpět</a></button></li>
     </ul>
 </div>
-
-
 
 
 {% endblock %}

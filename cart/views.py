@@ -4,39 +4,56 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpR
 
 from django.contrib import messages
 
-from products.models import Tshirt
+from products.models import Tshirt, Size
 from .models import Item, Order
+
+def add_to_cart_from_detail(request, slug):
+    item_size = Size.objects.get(pk=request.POST['size'])
+    return add_to_cart(request, slug, item_size)
 
 # Adds tshirt to the shopping cart.
 
-def add_to_cart(request, slug):
-    item = get_object_or_404(Tshirt, slug=slug)
+def add_to_cart(request, slug, item_size):
+    item = get_object_or_404(Tshirt, slug=slug) # Vezme tričko, např. classic-bílá
+    item_size = item_size
 
-    this_order = Order.objects.get(user=request.user, ordered=False, active=True)
-    item_qs = this_order.orderitems.filter(item=item, user=request.user)
+    this_order = Order.objects.get(user=request.user, ordered=False, active=True)# Vezme aktivní košík
+    item_qs = this_order.orderitems.filter(item=item, size=item_size, user=request.user)# Vezme např. classic-bílá v aktivním košíku
 
     if item_qs.exists():
-        order_item = this_order.orderitems.get(item=item, user=request.user)
+        order_item = this_order.orderitems.get(item=item, size=item_size, user=request.user)
     else:
-        order_item = Item.objects.create(item=item, user=request.user)
-
+        order_item = Item.objects.create(item=item, size=item_size, user=request.user)
+    
     # Gets existing order or creates new one. 
     # Gets existing tshirt and increases quantity or creates new one.
 
-    order_qs = Order.objects.filter(user=request.user, ordered=False, active=True)
-    if order_qs.exists():
+    order_qs = Order.objects.filter(user=request.user, ordered=False, active=True)# Vezme aktivní košík
+    if order_qs.exists(): # Pokud existuje aktivní košík
         order = order_qs[0]
         # Check if the order item is in the order.
-        if order.orderitems.filter(item__slug=item.slug).exists():
+        if order.orderitems.filter(item__slug=item.slug, size=item_size).exists(): # Pokud existuje v aktivním košíku tričko napč. classic-bílá.
             order_item.quantity +=1
             order_item.save()
             messages.info(request, 'Počet triček byl navýšen.')
             return redirect("cart:show_active_cart")
         else:
+            
+            # Gets and assigns size of t-shirt from form
+            #selected_size = item.size.get(pk=request.POST['size'])
+            order_item.size = item_size
+            order_item.save()
+
+            # Adds new item 
             order.orderitems.add(order_item)
-            messages.info(request, 'Tričko bylo úspěšně přidáno do košíku.')
+            messages.info(request, 'Tričko bylo úspěšně přidáno do košíku.X')
             return redirect("cart:show_active_cart")
     else:
+        # Gets and assigns size of t-shirt from form
+        order_item.size = item_size
+        order_item.save()
+
+        # Adds new item 
         order = Order.objects.create(user=request.user)
         order.orderitems.add(order_item)
         order.active = True
@@ -46,12 +63,12 @@ def add_to_cart(request, slug):
 
 # Removes tshirt to the shopping cart.
 
-def remove_from_cart(request, slug):
+def remove_from_cart(request, slug, size):
     item = get_object_or_404(Tshirt, slug=slug)
     this_order = Order.objects.get(user=request.user, ordered=False, active=True)
-    order_item = this_order.orderitems.get(item=item, user=request.user)
+    order_item = this_order.orderitems.get(item=item, size=size, user=request.user)
 
-# Gets existed tshirt and decreases quantity or delete it.
+    # Gets existed tshirt and decreases quantity or delete it.
 
     if order_item.quantity > 1:
         order_item.quantity -=1
@@ -59,17 +76,16 @@ def remove_from_cart(request, slug):
         messages.info(request, 'Tričko bylo odebráno.')
         return redirect("cart:show_active_cart")
     else:
-        order_item = Item.objects.get(item=item, user=request.user)
         order_item.delete()
         messages.info(request, 'Tričko bylo odstraněno z košíku.')
         return redirect("cart:show_active_cart")
 
 # Deletes item from shopping cart.
 
-def delete_from_cart(request, slug):
+def delete_from_cart(request, slug, size):
     item = get_object_or_404(Tshirt, slug=slug)
     this_order = Order.objects.get(user=request.user, ordered=False, active=True)
-    order_item = this_order.orderitems.get(item=item, user=request.user)
+    order_item = this_order.orderitems.get(item=item, size=size, user=request.user)
     order_item.delete()
     messages.info(request, 'Tričko bylo odstraněno z košíku.')
     return redirect("cart:show_active_cart")
