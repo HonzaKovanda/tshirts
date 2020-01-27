@@ -30,7 +30,7 @@ django-treebeard==4.3.1
 djangocms-admin-style==1.4.0
 djangocms-cascade==1.1.9
 djangocms-text-ckeditor==3.8.0
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 easy-thumbnails==2.7
 Flask==1.1.1
 future==0.18.2
