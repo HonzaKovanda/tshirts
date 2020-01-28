@@ -1,0 +1,81 @@
+{% extends 'products/base.html' %}
+{% load humanize %}
+
+{% block content %}
+
+
+<div class="one-page-cart-content">
+    {% for cart in carts %}
+    <div class="one-page-cart-self">
+    <h3>Košík č. {{forloop.counter}}</h3> 
+    {% if cart.active %}<span style="color:green"><b>Aktivní</b></span>{% endif %}
+    <table class="table table-hover  center cart">
+        <thead {% if cart.active %} style="background-color:rgb(106, 201, 238)">{% endif %}
+            <tr>
+                <th scope="col">Tričko</th>
+                <th scope="col">Barva</th>
+                <th scope="col">Velikost</th>
+                <th scope="col">Množství</th>
+                <th scope="col"></th>
+                <th scope="col">Cena za kus <small>(s DPH)</small></th>
+                <th scope="col">Cena za vše <small>(s DPH)</small></th>
+                <th></th>
+            </tr>
+        </thead>
+
+    {%for item in cart.orderitems.all %}
+    
+    <tr>
+        <td><a href="{% url 'products:detail' item.item.slug %}" id="black_font">{{ item.item.title }}</a></td>
+        <td>{{ item.item.color}}</td>
+        <td>{{ item.size}}</td>
+        <td><a href="{% url 'cart:decrease_item' item.item.slug item.size.id cart.id %}" class="glyphicon glyphicon-minus-sign text-info no_under_line"></a>&nbsp;&nbsp;  {{ item.quantity }} Ks&nbsp;
+            <a href="{% url 'cart:increase_item' item.item.slug item.size.id cart.id %}" class="glyphicon glyphicon-plus-sign text-info no_under_line"></a></td>
+        <td><a href="{% url 'products:detail' item.item.slug %}"><img src="{{ item.item.image.url }}" id="product_cart_image"></a></td>
+        <td><span class="green_price">{{ item.item.price_with_tax|intcomma }} Kč <small></small></span></br> </td>
+        <td><span class="green_price">{{ item.get_total_with_tax|intcomma }} Kč <small></small></td>  
+        <td><a href="#myModal{{cart.id}}-{{ forloop.counter }}" type="button" class="glyphicon glyphicon-remove no_under_line" data-toggle="modal"></a></td>
+    </tr>
+
+    <!-- Delte t-shirt from cart pop-up confirmation. - Modal HTML -->
+    <div id="myModal{{cart.id}}-{{ forloop.counter }}" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Potvrzení</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Opravdu chcete odstranit tričko <b>{{ item.item.title }}</b> z košíku?</p>
+                    <p><img src="{{ item.item.image.url }}" id="product_cart_image"></p>
+                    <p class="text-secondary"><small></small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
+                    <button type="button" class="btn btn-primary white-link"><a href="{% url 'cart:delete_item' item.item.slug item.size.id cart.id %}">Odstranit</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+    {% endfor %}
+    <tr>
+        <td colspan="8"><button type="button" class="btn btn-success  white-link"><a href="{% url 'cart:active_this_cart' cart.id %}">
+             <small><span class="glyphicon glyphicon-plus"></span></small>&nbsp;&nbsp; Přidat trička do tohoto košíku</a></button></td>
+    </tr>
+    <tr>
+        <td colspan="5"></td>
+        <td><b> Cena za tento košík: </b></td>    
+        <td> <span class="green_price">{{ cart.get_totals_with_tax|intcomma }} Kč<small> s DPH</small></span></br>{{ cart.get_totals|intcomma }} Kč<small> bez DPH</small></td>
+        <td></td>
+    </tr>
+    </table>
+    </div>
+{% endfor %}
+
+<button type="button" class="btn btn-success btn-lg white-link"><a href="{% url 'cart:create_new_cart' %}">Vytvořit nový košík <span class="glyphicon glyphicon-plus"></span></a></button>
+</div>
+{% endblock %}
+
+

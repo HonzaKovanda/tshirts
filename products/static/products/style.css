@@ -46,7 +46,7 @@ ul {
 }
 
 #product_cart_image {
-    max-width: 50px;
+    max-width: 40px;
 }
 
 #product_thumbnail {
@@ -74,7 +74,7 @@ ul {
 
 .green_price {
     color: green;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 .close_cross a {
@@ -98,6 +98,22 @@ ul {
     margin: auto;
 
 }
+
+
+.one-page-cart-content {
+    width: 60%;
+    margin: auto;
+    padding-bottom: 40px;
+
+
+
+}
+
+.one-page-cart-self {
+    padding: 10px 0px;
+
+}
+    
 
 /*Radiobutton*/
 

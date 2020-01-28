@@ -2,6 +2,7 @@
 <html lang="cs-cz">
 <head>
     {% load static %}
+    {% load cart_tag %}
     <meta charset="utf-8" >
     <title>E-shop s tričky</title>
     <link rel="stylesheet" type="text/css" href="{% static 'products/style.css' %}">
@@ -17,9 +18,8 @@
             Textil <span class="glyphicon glyphicon-search"></span></a></button>
         <button type="button" class="btn btn-outline-success btn-lg"><a href="">
             Moje galerie <span class="glyphicon glyphicon-picture"></span></a></button>
-        <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:show_active_cart'%}">
-            Košík <span class="glyphicon glyphicon-shopping-cart"></span></a></button>
-     
+        <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}">
+            Košík <span class="glyphicon glyphicon-shopping-cart"></span> ({{ request.user| cart_total }}ks)</a></button>
     </div>
 
 
