@@ -13,15 +13,31 @@
 </head>
 
 <header>
-    <div class="flex_box p-4 mb-3 bg-dark white-link" style="text-align:center;">  
-        <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'products:home' %}">
-            Textil <span class="glyphicon glyphicon-search"></span></a></button>
-        <button type="button" class="btn btn-outline-success btn-lg"><a href="">
-            Moje galerie <span class="glyphicon glyphicon-picture"></span></a></button>
-        <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}">
-            Košík <span class="glyphicon glyphicon-shopping-cart"></span> ({{ request.user| cart_total }}ks)</a></button>
+    <div class="flex_box p-4 mb-3 bg-dark" >  
+        <span class="login_label">
+            {% if user.is_authenticated %}
+                Jste přihlášen jako {% if user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{user.username}}{% endif %}
+                   &nbsp;<span class="glyphicon glyphicon-user"></span></br>
+                <a style="float:right" href="{% url 'logout' %}">Odhlásit se</a>
+            {% else %}
+            <a href="{% url 'login' %}">Přihlásit se</a> &nbsp;<span class="glyphicon glyphicon-user"></span>
+            <a href="{% url 'cart:sign_up' %}">Registrovat se</a> &nbsp;<span class="glyphicon glyphicon-globe"></span> 
+            {% endif %}
+        </span>
+        <div class="white-link" style="text-align:center;">
+            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'products:home' %}">
+                Textil <span class="glyphicon glyphicon-search"></span></a></button>
+            <button type="button" class="btn btn-outline-success btn-lg"><a href="" onClick="alert('Na galerii teprve pracuji :)')">
+                Moje galerie <span class="glyphicon glyphicon-picture"></span></a></button>
+            {% if user.is_authenticated %}
+            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}"> 
+                Košík <span class="glyphicon glyphicon-shopping-cart"></span>({{ request.user| cart_total }}ks)</a></button>
+            {% else %} 
+            <button type="button" class="btn btn-outline-success btn-lg"><a href="" onClick="alert('Je potřeba být přihlášen.')"> 
+                Košík <span class="glyphicon glyphicon-shopping-cart"></span></a></button>
+            {% endif %}    
+        </div>      
     </div>
-
 
     {% if messages %}
         <div class="messages container mt-3">

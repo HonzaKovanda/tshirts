@@ -1,0 +1,15 @@
+{% extends 'products/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="login_box">
+    <h2>Přihlášení</h2>
+    <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Přihlásit se</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -7,7 +7,8 @@
 <div class="one-page-cart-content">
     {% for cart in carts %}
     <div class="one-page-cart-self">
-    <h3>Košík č. {{forloop.counter}}</h3> 
+    <a href="#myModal{{cart.id}}" data-toggle="modal"> <span style="float:right">Smazat tento košík <span class="glyphicon glyphicon-trash"></span></span></a>
+    <h3><a href="{% url 'cart:active_this_cart' cart.id %}">Košík č. {{forloop.counter}}</a></h3> 
     {% if cart.active %}<span style="color:green"><b>Aktivní</b></span>{% endif %}
     <table class="table table-hover  center cart">
         <thead {% if cart.active %} style="background-color:rgb(106, 201, 238)">{% endif %}
@@ -51,8 +52,8 @@
                     <p class="text-secondary"><small></small></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
-                    <button type="button" class="btn btn-primary white-link"><a href="{% url 'cart:delete_item' item.item.slug item.size.id cart.id %}">Odstranit</a></button>
+                    <button type="button" class="btn btn-secondary btn-lg white-link" data-dismiss="modal"><a href="">Zrušit</a></button>
+                    <button type="button" class="btn btn-danger btn-lg white-link"><a href="{% url 'cart:delete_item' item.item.slug item.size.id cart.id %}">Odstranit</a></button>
                 </div>
             </div>
         </div>
@@ -61,7 +62,7 @@
         
     {% endfor %}
     <tr>
-        <td colspan="8"><button type="button" class="btn btn-success  white-link"><a href="{% url 'cart:active_this_cart' cart.id %}">
+        <td colspan="8"><button type="button" class="btn btn-success  white-link"><a href="{% url 'cart:active_this_cart_and_home' cart.id %}">
              <small><span class="glyphicon glyphicon-plus"></span></small>&nbsp;&nbsp; Přidat trička do tohoto košíku</a></button></td>
     </tr>
     <tr>
@@ -72,10 +73,40 @@
     </tr>
     </table>
     </div>
+
+    <!-- Delte particular cart pop-up confirmation. - Modal HTML -->
+    <div id="myModal{{cart.id}}" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Potvrzení</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Opravdu chcete <b>smazat košík č. {{forloop.counter}}</b> se všemi položkami?</p>
+                    {%for item in cart.orderitems.all %}
+                        <img src="{{ item.item.image.url }}" id="product_cart_image">
+                    {% endfor %}
+                    <p class="text-secondary"><small></small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-lg white-link" data-dismiss="modal"><a href="">Zrušit</a></button>
+                    <button type="button" class="btn btn-danger btn-lg white-link"><a href="{% url 'cart:delete_cart' cart.id %}">Odstranit</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endfor %}
 
-<button type="button" class="btn btn-success btn-lg white-link"><a href="{% url 'cart:create_new_cart' %}">Vytvořit nový košík <span class="glyphicon glyphicon-plus"></span></a></button>
+    <div class="center">
+    <button type="button" class="btn btn-info btn-lg white-link" ><a href="{% url 'cart:create_new_cart' %}">Vytvořit nový košík 
+        <span class="glyphicon glyphicon-shopping-cart"></span></a></button>
+    </div>
 </div>
+
 {% endblock %}
 
 

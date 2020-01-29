@@ -11,9 +11,12 @@
             <li><a href="{% url 'products:detail' product.slug %}"> <img class=" rounded-top border img-thumbnail" 
                 src="{{ product.image.url }}" ></a></li>
         <div class='card-footer text-center'>
-            <li><strong><h5 class="card-title"> {{ product.title }}</h5></strong></li>
-            <li class="green_price">Cena s DPH: {{ product.price_with_tax }} Kč</li>
-            <li><p class="card-text">Cena bez DPH: {{ product.price }} Kč</p></li>
+            <li><strong><h3 class="card-title"> {{ product.title }}</h3></strong></li>
+            <li>{% for tshirt in all_colors %}{% if tshirt.nomen_code == product.nomen_code %}
+                <a href="{% url 'products:detail' tshirt.slug %}"><div class="color_box_small" style="background-color:{{ tshirt.color.hexacode }}">
+                </div></a>{% endif %}{% endfor %}</li>
+            <li class="green_price">Cena: {{ product.price_with_tax }} Kč <small>(s DPH)</small></li>
+            <!--<li><p class="card-text">Cena bez DPH: {{ product.price }} Kč</p></li>-->
         </div>
     </ul>
 

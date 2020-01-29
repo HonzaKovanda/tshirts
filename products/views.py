@@ -8,13 +8,20 @@ from django.views import generic
 
 from .models import Tshirt
 
-
+"""
 class IndexView(generic.ListView):
     template_name = 'products/index.html'
-    #context_object_name = 'latest_question_list'
+
 
     def get_queryset(self):
-        return Tshirt.objects.filter()
+        return Tshirt.objects.filter(cover=True)
+"""
+
+def index_view(request):
+    object_list = Tshirt.objects.filter(cover=True)
+    all_colors = Tshirt.objects.filter()
+    return render(request, 'products/index.html', {'object_list': object_list, 'all_colors': all_colors })
+
 
 def tshirt_detail(request, slug):
     tshirt = get_object_or_404(Tshirt, slug=slug)

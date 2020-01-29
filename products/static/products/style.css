@@ -34,6 +34,20 @@ ul {
 
 }
 
+.center_block {
+    width: 20%;
+    margin: auto;
+    
+} 
+
+.center {
+    text-align: center;
+}
+
+
+
+
+
 #black_font {
     color:black!important;
 }
@@ -43,6 +57,7 @@ ul {
     max-width: 300px;
     float: left;
     margin: 0 100px;
+    margin-bottom: 200px;
 }
 
 #product_cart_image {
@@ -66,9 +81,22 @@ ul {
     width: 25px;
     height: 25px;
     border: 1px;
-    border-style: outset;
-    margin-right: 5px;
+    border-style: solid;
+    border-color: gray;
     display: inline-block;
+    text-decoration: none!important;
+    
+}
+
+.color_box_small {
+    width: 20px;
+    height: 20px;
+    border: 0.1px;
+    border-style: solid;
+    border-color: gray;
+    margin-right: -1px;
+    display: inline-block;
+    text-decoration: none!important;
     
 }
 
@@ -114,7 +142,16 @@ ul {
 
 }
     
+.login_box {
+    width:400px;
+    margin:auto;
+    margin-top: 40px;
+}
+.login_label {
+    color:white; 
+    position:absolute;
+    right: 20px; 
+}
 
-/*Radiobutton*/
 
 

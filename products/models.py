@@ -34,6 +34,7 @@ class Tshirt(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=300)
     slug = models.SlugField()
+    cover = models.BooleanField(default=False)
     nomen_code = models.IntegerField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True)

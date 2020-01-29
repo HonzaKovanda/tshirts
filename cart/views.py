@@ -1,11 +1,21 @@
 #!/usr/bin/python3.8
 
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
 
 from django.contrib import messages
 
 from products.models import Tshirt, Size
 from .models import Item, Order
+
+# Sign up
+class SignUp(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'cart/signup.html'
+
 
 # Adds item from product detail
 def add_to_cart_from_detail(request, slug):
@@ -20,11 +30,11 @@ def increase_item(request, slug, item_size, cart_id):
 # Adds tshirt to the shopping cart.
 
 def add_to_cart(request, slug, item_size):
-    item = get_object_or_404(Tshirt, slug=slug) # Vezme tričko, např. classic-bílá
+    item = get_object_or_404(Tshirt, slug=slug) # Gets t-shirt e.g. "classic-bílá"
     item_size = item_size
 
-    this_order = Order.objects.get(user=request.user, ordered=False, active=True)# Vezme aktivní košík
-    item_qs = this_order.orderitems.filter(item=item, size=item_size, user=request.user)# Vezme např. classic-bílá v aktivním košíku
+    this_order, created = Order.objects.get_or_create(user=request.user, ordered=False, active=True)# Gets active cart
+    item_qs = this_order.orderitems.filter(item=item, size=item_size, user=request.user)# Gets t-shirt e.g. "classic-bílá" in a active cart
 
     if item_qs.exists():
         order_item = this_order.orderitems.get(item=item, size=item_size, user=request.user)
@@ -115,6 +125,21 @@ def create_new_cart(request):
     return redirect("cart:cart_view")
 
 
+# Deletes particular cart
+
+def delete_cart(request, cart_id):
+
+    cart = Order.objects.get(pk=cart_id)
+    items = cart.orderitems.all()
+    items.delete()
+    cart.delete()
+
+    messages.info(request, 'Košík byl úspěšně smazán.')
+    return redirect("cart:cart_view")
+
+
+
+
 def cart_view(request):
     user = request.user
 
@@ -138,7 +163,10 @@ def active_this_cart(request, cart_id):
     order = orders.get(pk=cart_id)
     order.active = True
     order.save()
+    return redirect("cart:cart_view")
 
+def active_this_cart_and_home(request, cart_id):
+    active_this_cart(request,cart_id)
     return redirect("products:home")
 
 
