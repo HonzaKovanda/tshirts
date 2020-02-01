@@ -10,6 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+import django_heroku
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -33,6 +37,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'honzik.pythonanywhere.com']
 INSTALLED_APPS = [
     'cart',
     'products',
+    'gallery',
     'model_clone',
     'crispy_forms',
     'django.contrib.humanize',
@@ -105,6 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
 
 
 # Internationalization

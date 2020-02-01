@@ -1,1 +1,1 @@
-web: gunicorn tshirts.wsgi --log-file -
+web: gunicorn tshirts.wsgi
