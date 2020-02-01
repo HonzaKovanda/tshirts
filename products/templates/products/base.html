@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'products/style.css' %}">
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
 
 </head>
 
@@ -27,13 +27,13 @@
         <div class="white-link" style="text-align:center;">
             <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'products:home' %}">
                 Textil <span class="glyphicon glyphicon-search"></span></a></button>
-            <button type="button" class="btn btn-outline-success btn-lg"><a href="" onClick="alert('Na galerii teprve pracuji :)')">
+            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'gallery:home' %}">
                 Moje galerie <span class="glyphicon glyphicon-picture"></span></a></button>
             {% if user.is_authenticated %}
             <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}"> 
                 Košík <span class="glyphicon glyphicon-shopping-cart"></span>({{ request.user| cart_total }}ks)</a></button>
             {% else %} 
-            <button type="button" class="btn btn-outline-success btn-lg"><a href="" onClick="alert('Je potřeba být přihlášen.')"> 
+            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}"> 
                 Košík <span class="glyphicon glyphicon-shopping-cart"></span></a></button>
             {% endif %}    
         </div>      

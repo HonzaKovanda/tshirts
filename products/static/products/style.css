@@ -153,5 +153,117 @@ ul {
     right: 20px; 
 }
 
+/* Gallery with images for print */
+
+.gallery_image_box {
+    float: left;
+    width: 230px;
+    height: 250px;
+    margin: 15px 15px;
+
+
+
+}
+
+
+.gallery_image_thumbnail {
+    width: 100%;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+
+}
+
+
+.upload_image_box {
+    width:850px;
+    margin:auto;
+    margin-top: 40px;
+}
+
+.upload_image_image {
+    max-width:400px; 
+    max-height:400px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+.upload_image_frameXXX {
+    width:300px;
+    height: 200px;
+    margin-top: 30px;
+    border: 1px;
+    border-style: dashed;
+    border-color: black;
+}
+
+/*Choose size of image in gallery CSS*/
+
+#id_size input[type="radio"]:checked + img {
+    width:100%;
+    border: 1px dashed red;
+}
+
+#id_size input[type="radio"] + img {
+    width:95%;
+
+}
+
+#id_size input[type="radio"]:hover + img {
+    cursor: pointer;
+}
+
+#id_size input[type="radio"] {
+    display: none;
+}
+
+ul#id_size li{
+    display: inline-block;
+    }
+
+#id_size label{
+    text-align: center;
+    font-weightX: bold;
+}
+
+/*Choose position of image in gallery CSS*/
+
+#id_position input[type="radio"]:checked + img {
+    width:100%;
+    border: 1px dashed red;
+
+}
+
+#id_position input[type="radio"] + img {
+    width:95%;
+
+}
+
+#id_position input[type="radio"]:hover + img {
+    cursor: pointer;
+}
+
+#id_position input[type="radio"] {
+    display: none;
+}
+
+ul#id_position li{
+    display: inline-block;
+    }
+
+#id_position label{
+    text-align: center;
+
+}
+
+
+.asteriskField {
+    display: none;
+}
+
+input[type=radio]:hover{
+    cursor: pointer;
+  }
+
 
 

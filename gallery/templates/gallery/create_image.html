@@ -1,0 +1,95 @@
+{% extends 'products/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="upload_image_box">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+                <div class="" >
+                    <table style="width:100%; " border=0>
+                        <tr>
+                            <td style="height:30px;">
+                                <p><b>Vyberte obrázek z počítače:</b><br>
+                                {{ form.image}}
+                            </td>
+                            <td rowspan=2 valign="top">
+                                <p><b>Zvolte si, kde bude obrázek umístěn:</b><br>
+                                {{ form.position }}
+                                <p><b>Vyberte prosím velikost obrázku:</b><br>
+                                    {{ form.size }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%;">
+                                <div class="upload_image_frameX">
+                                    <img class="upload_image_image" src="/media/template_images/default_image.jpg" id="image" />
+                                </div>
+                                <p>Název uloženého obrázku můžete změnit:<br> (např. "Moje firemní logo")</p>
+                                {{ form.title }}
+                            </td> 
+                           
+                        </tr>
+                    </table>
+                </div>
+
+
+            <div class="center">
+                <button type="submit" class="btn btn-success btn-lg" style="width: 50%; margin-top: 25px; margin-bottom: 15px ;">Uložit obrázek 
+                    <span class="glyphicon glyphicon-upload"></span></button> <br>
+                <a href="{% url 'gallery:home'%}">Zpět do galerie</a>
+            </div>
+        </form>
+    </div>
+
+<!--Show image to upload-->
+<script>
+    document.getElementById("files").onchange = function () {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>
+
+<!--Get file name in title field-->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('input[type="file"]').change(function(e){
+            var fileName = e.target.files[0].name;
+            /*alert('The file "' + fileName +  '" has been selected.');*/
+            document.getElementById("title").value = fileName
+        });
+    });
+</script>
+
+<!--Get image for size of print-->
+<script>
+    $(document).ready(function(){
+        $("#id_size_0").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_size_1").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_size_2").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+    });
+</script>
+
+<!--Get image for position of print-->
+<script>
+    $(document).ready(function(){
+        $("#id_position_0").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_1").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_2").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_3").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_4").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_5").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+    });
+</script>
+
+{% endblock %}

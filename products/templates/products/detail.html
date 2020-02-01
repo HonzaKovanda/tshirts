@@ -12,8 +12,8 @@
         {% block content_desc_edit %}
         {% endblock %}</li>
     <li><p><b>Barva:</b> {{ tshirt.color}}</p></li>
-    <li><p><b>Vyber si barvu:</b> </br>{% for tshirt in all_colors %}<a href="{% url 'products:detail' tshirt.slug %}">
-        <div class="color_box" style="background-color:{{ tshirt.color.hexacode }}"></div></a>{% endfor %}</p></li>
+    <li><p><b>Vyber si barvu:</b></p> {% for tshirt in all_colors %}<a href="{% url 'products:detail' tshirt.slug %}">
+        <div class="color_box" style="background-color:{{ tshirt.color.hexacode }}"></div></a>{% endfor %}</li>
     <li><p><b>Vyber si velikost:</b>
 
         <form id="sizeForm" action="{% url 'cart:add_item_from_detail' tshirt.slug %}" method="post">
@@ -29,13 +29,7 @@
     </p></li>
     <li class="green_price"><h3>Cena {{ tshirt.price_with_tax }} Kč <small>(s DPH)</small></h3></li>
     <li><p>Cena {{ tshirt.price }} Kč <small>(bez DPH)</small></p></li>
-    <li>    {% if user.is_authenticated %}
-            <input type="submit" value="Přidat do košíku" form="sizeForm" class="btn btn-success btn-lg text-white">
-            {% else %} 
-            <button type="button" class="btn btn-success btn-lg text-white"><a href="" onClick="alert('Je potřeba být přihlášen.')"> 
-                Přidat do košíku</a></button>
-            {% endif %} 
-    
+    <li><input type="submit" value="Přidat do košíku" form="sizeForm" class="btn btn-success btn-lg text-white">
         <button type="button" class="btn btn-primary btn-lg text-white" style="float:right"><a href="{% url 'products:home' %}">Zpět</a></button></li>
     </ul>
 </div>

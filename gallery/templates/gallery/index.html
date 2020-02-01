@@ -1,0 +1,21 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+
+<div style="margin: 15px 15px;">
+    <button type="button" class="btn btn-info btn-lg white-link" ><a href="{% url 'gallery:create' %}">Přidat nový obrázek do galerie 
+        <span class="glyphicon glyphicon-picture"></span></a></button>
+</div>
+
+{% for image in object_list %}
+<div class="gallery_image_box">
+    <a href="{{image.image.url}}" target=”_blank”><img class="gallery_image_thumbnail" src="{{image.image.url}}" /></a> </br>
+    <b>Název:</b> {{image.title}} <br>
+    <b>Velikost:</b> {{image.size}} <br>
+    <b>Umístění:</b> {{image.position}} <br>
+    {% if image.note %}<b>Poznámka:</b> {{image.note}} <br>{% endif %}
+</div>
+
+{% endfor %}
+
+{% endblock %}

@@ -2,13 +2,48 @@
 
 from django.shortcuts import render, get_object_or_404, redirect, reverse, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from django.contrib import messages
 
 from products.models import Tshirt, Size
 from .models import Item, Order
+
+from django.contrib.auth.models import User
+from random import randint
+from django.contrib.auth import authenticate, login, logout
+from products.views import index_view
+
+
+def anonymous_or_real(request):
+    user = request.user
+    if user.is_authenticated:
+        return user
+    else:
+        # if not, create an anonymous user and log them in
+        rand_numb = randint(0, 100000)
+        username = randint(0, 100000)
+        u = User(username=username, first_name='User', last_name=rand_numb)
+        u.set_unusable_password()
+        u.save()
+
+        u.username = u.id
+        u.save()
+
+        #authenticate(user=u)
+        login(request, u)
+        return u
+
+def assign_items(request):
+    anonymid = request.user.id
+    #return reverse('products:home', args=(request.user.id, ))
+    #return redirect("products:home", anonymid='anonymid')
+    #return index_view(request, anonym_id)
+    return render(request, "cart/cart_home.html", { 'anonymid':anonymid,})
+    #return HttpResponse(a)
+
+
 
 # Sign up
 class SignUp(generic.CreateView):
@@ -19,6 +54,7 @@ class SignUp(generic.CreateView):
 
 # Adds item from product detail
 def add_to_cart_from_detail(request, slug):
+    anonymous_or_real(request)
     item_size = Size.objects.get(pk=request.POST['size'])
     return add_to_cart(request, slug, item_size)
 
@@ -141,6 +177,9 @@ def delete_cart(request, cart_id):
 
 
 def cart_view(request):
+
+    anonymous_or_real(request)
+
     user = request.user
 
     carts = Order.objects.filter(user=user, ordered=False)
