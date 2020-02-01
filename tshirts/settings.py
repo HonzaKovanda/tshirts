@@ -26,7 +26,7 @@ SECRET_KEY = '^uu01plsncew=wb#1-7(fhg-^@ej^a71%ng1%753y!7g61cc#m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'honzik.pythonanywhere.com','tshirts.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'honzik.pythonanywhere.com','tshirtsapp.herokuapp.com']
 
 
 # Application definition
