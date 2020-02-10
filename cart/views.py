@@ -55,8 +55,7 @@ def migrate_temp_user(request):
             cart.user = request.user
             cart.save()
             cart_id = cart.id
-
-        active_this_cart(request, cart_id)
+            active_this_cart(request, cart_id)  
 
         items = Item.objects.filter(user=temp_user)
         for item in items:
@@ -71,7 +70,7 @@ def migrate_temp_user(request):
         del request.session['temporary_user_id']
     else: 
         pass
-
+    return redirect("products:home")
 
 
 

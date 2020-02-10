@@ -19,4 +19,5 @@ urlpatterns = [
     path('create/', views.create_session),
     path('access/', views.access_session),
     path('logout-in/', views.logout_in, name='logout_in'),
+    path('migrate_temp_user/', views.migrate_temp_user, name='migrate_temp_user'),
 ]
