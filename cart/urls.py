@@ -7,7 +7,6 @@ app_name='cart'
 
 urlpatterns = [
     path('registrace/', views.SignUp.as_view(), name='sign_up'),
-    path('assign_items/', views.assign_items, name='assign_items'),
     path('add_from_detail/<slug>/', views.add_to_cart_from_detail, name='add_item_from_detail'),
     path('create-new-cart/', views.create_new_cart, name='create_new_cart'),
     path('', views.cart_view, name='cart_view'),
@@ -17,4 +16,7 @@ urlpatterns = [
     path('remove/<slug>/<int:item_size>/<int:cart_id>', views.decrease_item, name='decrease_item'),
     path('delete/<slug>/<int:item_size>/<int:cart_id>', views.delete_item, name='delete_item'),
     path('delete_cart/<int:cart_id>/', views.delete_cart, name='delete_cart'),
+    path('create/', views.create_session),
+    path('access/', views.access_session),
+    path('logout-in/', views.logout_in, name='logout_in'),
 ]

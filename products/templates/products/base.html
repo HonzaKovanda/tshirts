@@ -13,16 +13,24 @@
 </head>
 
 <header>
+    ID anonymního uživatele: {{ request.session.temporary_user_id }} Přihlášený uživatel ID: {{request.user.id}}
     <div class="flex_box p-4 mb-3 bg-dark" >  
         <span class="login_label">
             {% if user.is_authenticated %}
+                {% if user.first_name == 'User' %}
+                <a href="{% url 'cart:logout_in' %}">Přihlásit se</a> &nbsp;<span class="glyphicon glyphicon-user"></span>
+                <a href="{% url 'cart:sign_up' %}">Registrovat se</a> &nbsp;<span class="glyphicon glyphicon-globe"></span> 
+                {% else %}
                 Jste přihlášen jako {% if user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{user.username}}{% endif %}
                    &nbsp;<span class="glyphicon glyphicon-user"></span></br>
-                <a style="float:right" href="{% url 'logout' %}">Odhlásit se</a>
+                <a style="float:right" href="{% url 'logout' %}"> Odhlásit se</a>
+                {% endif %}
+
             {% else %}
             <a href="{% url 'login' %}">Přihlásit se</a> &nbsp;<span class="glyphicon glyphicon-user"></span>
             <a href="{% url 'cart:sign_up' %}">Registrovat se</a> &nbsp;<span class="glyphicon glyphicon-globe"></span> 
             {% endif %}
+            
         </span>
         <div class="white-link" style="text-align:center;">
             <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'products:home' %}">

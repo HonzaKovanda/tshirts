@@ -9,11 +9,12 @@ from django.contrib import messages
 
 from products.models import Tshirt, Size
 from .models import Item, Order
+from gallery.models import Image
 
 from django.contrib.auth.models import User
 from random import randint
 from django.contrib.auth import authenticate, login, logout
-from products.views import index_view
+#from products.views import index_view
 
 
 def anonymous_or_real(request):
@@ -31,24 +32,53 @@ def anonymous_or_real(request):
         u.username = u.id
         u.save()
 
+        request.session['temporary_user_id'] = u.id
+
         #authenticate(user=u)
         login(request, u)
         return u
 
-def assign_items(request):
-    anonymid = request.user.id
-    #return reverse('products:home', args=(request.user.id, ))
-    #return redirect("products:home", anonymid='anonymid')
-    #return index_view(request, anonym_id)
-    return render(request, "cart/cart_home.html", { 'anonymid':anonymid,})
-    #return HttpResponse(a)
+def logout_in(request):
+    temp_user = request.session.get('temporary_user_id', None)
+    logout(request)
+
+    request.session['temporary_user_id'] = temp_user
+    return redirect("login")
+
+
+def migrate_temp_user(request):
+    # Check 
+    temp_user = request.session.get('temporary_user_id', None)
+    if temp_user:
+        carts = Order.objects.filter(user=temp_user)
+        for cart in carts:
+            cart.user = request.user
+            cart.save()
+            cart_id = cart.id
+
+        active_this_cart(request, cart_id)
+
+        items = Item.objects.filter(user=temp_user)
+        for item in items:
+            item.user = request.user
+            item.save()
+
+        images = Image.objects.filter(user=temp_user)
+        for image in images:
+            image.user = request.user
+            image.save()
+
+        del request.session['temporary_user_id']
+    else: 
+        pass
+
 
 
 
 # Sign up
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('cart:logout_in')
     template_name = 'cart/signup.html'
 
 
@@ -207,6 +237,22 @@ def active_this_cart(request, cart_id):
 def active_this_cart_and_home(request, cart_id):
     active_this_cart(request,cart_id)
     return redirect("products:home")
+
+
+
+def create_session(request):
+    request.session['name'] = 'username'
+    request.session['password'] = 'password88'
+    return HttpResponse("<h1>dataflair<br> the session is set</h1>")
+def access_session(request):
+    response = "<h1>Welcome to Sessions of dataflair</h1><br>"
+    if request.session.get('temporary_user_id'):
+        response += "Temp user ID : {0} <br>".format(request.session.get('temporary_user_id'))
+    if request.session.get('password'):
+        response += "Password : {0} <br>".format(request.session.get('password'))
+        return HttpResponse(response)
+    else:
+        return redirect('create/')
 
 
 

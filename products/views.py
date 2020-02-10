@@ -5,8 +5,10 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 
 from django.views import generic
+from cart.views import migrate_temp_user
 
 from .models import Tshirt
+
 
 """
 class IndexView(generic.ListView):
@@ -20,6 +22,8 @@ class IndexView(generic.ListView):
 def index_view(request):
     object_list = Tshirt.objects.filter(cover=True)
     all_colors = Tshirt.objects.filter()
+
+    migrate_temp_user(request)
     return render(request, 'products/index.html', {'object_list': object_list, 'all_colors': all_colors })
 
 
