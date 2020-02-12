@@ -19,7 +19,7 @@ ul {
 .white-link a {
     color: white;
     text-decoration: none!important;
-    font-size: 1.2em!important;
+    font-size: 1em!important;
 }
 
 .white-link a:hover{
@@ -141,6 +141,56 @@ ul {
     padding: 10px 0px;
 
 }
+
+.images_cart_block {
+    width: 200px;
+    height: 250px;
+    margin: 15px 15px;
+    float: left;
+}
+
+.images_cart_block_image {
+    width: 200px;
+    height: 150px;
+    border: solid 1px;
+    border-color: black;
+    line-height: 150px;
+    text-align: center;
+    
+
+}
+
+.images_cart_block_image_thumbnail {
+    max-width: 201px;
+    max-height: 151px;
+    padding-bottom: 4px;
+
+
+ 
+
+}
+
+.images_cart_block_new {
+    width: 200px;
+    height: 150px;
+    border: dashed 1px;
+    line-height: 150px;
+    text-align: center;
+    margin: 15px 15px;
+    float: left;
+}
+
+.image_cart_select_block {
+    width: 100px;
+    margin: 3px 3px;
+    float: left;
+}
+
+.image_cart_select_image {
+    width: 100%;
+}
+
+
     
 .login_box {
     width:400px;
@@ -157,17 +207,16 @@ ul {
 
 .gallery_image_box {
     float: left;
-    width: 230px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     margin: 15px 15px;
-
-
 
 }
 
 
 .gallery_image_thumbnail {
-    width: 100%;
+    max-width: 200px;
+    max-height: 150px;
     border: 2px;
     border-style: solid;
     border-color: black;

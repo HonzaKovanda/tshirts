@@ -1,5 +1,6 @@
 from django import template
 from cart.models import Order
+from gallery.models import Image
 
 register = template.Library()
 
@@ -16,4 +17,8 @@ def cart_total(user):
     else:
     	return 0
 
-        
+@register.filter
+def number_of_images_in_cart(cart_id):
+
+    number_of_images_in_cart = Image.objects.filter(belongs_to_order=cart_id).count()
+    return number_of_images_in_cart

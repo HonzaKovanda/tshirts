@@ -1,15 +1,48 @@
 {% extends 'products/base.html' %}
 {% load humanize %}
+{% load cart_tag %}
 
 {% block content %}
+
+{% if anchor %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    window.location = '#{{ anchor }}'
+});
+</script>
+{% endif %}
 
 
 <div class="one-page-cart-content">
     {% for cart in carts %}
+    {% if cart.active and forloop.counter > 1 %}<span id="active_cart"></span>{% endif %}
     <div class="one-page-cart-self">
     <a href="#myModal{{cart.id}}" data-toggle="modal"> <span style="float:right">Smazat tento košík <span class="glyphicon glyphicon-trash"></span></span></a>
     <h3><a href="{% url 'cart:active_this_cart' cart.id %}">Košík č. {{forloop.counter}}</a></h3> 
-    {% if cart.active %}<span style="color:green"><b>Aktivní</b></span>{% endif %}
+    {% if cart.active %}<span style="color:green; float:left"><b>Aktivní košík</b></span><br>{% endif %}
+
+        {%for image in images_in_order %}
+            {% if image.belongs_to_order == cart.id %}
+
+            <div class="images_cart_block">
+                <div class="images_cart_block_image">
+                    <a href="{{image.image.url}}" target=”_blank”><img class="images_cart_block_image_thumbnail" src="{{image.image.url}}" /></a> </br>
+                </div>
+                    <b>Název:</b> {{image.title}} <br>
+                    <b>Velikost:</b> {{image.size}} <br>
+                    <b>Umístění:</b> {{image.position}} <br>
+                    {% if image.note %}<b>Poznámka:</b> {{image.note}} <br>{% endif %} 
+                    <a href="{% url 'cart:remove_image_from_cart' cart.id image.id %}">Odebrat z košíku <span class="glyphicon glyphicon-trash"></span></a></br>          
+            </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+        {% if  cart.id|number_of_images_in_cart  < 4 %}
+        <div class="images_cart_block_new"><a href="#myModal_image{{cart.id}}" data-toggle="modal">Vybrat z Moje galerie <small><span class="glyphicon glyphicon-plus"></span></small></a></div>
+        {% endif %}
+
     <table class="table table-hover  center cart">
         <thead {% if cart.active %} style="background-color:rgb(106, 201, 238)">{% endif %}
             <tr>
@@ -38,7 +71,7 @@
         <td><a href="#myModal{{cart.id}}-{{ forloop.counter }}" type="button" class="glyphicon glyphicon-remove no_under_line" data-toggle="modal"></a></td>
     </tr>
 
-    <!-- Delte t-shirt from cart pop-up confirmation. - Modal HTML -->
+    <!-- Delete t-shirt from cart pop-up confirmation. - Modal HTML -->
     <div id="myModal{{cart.id}}-{{ forloop.counter }}" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -62,8 +95,8 @@
         
     {% endfor %}
     <tr>
-        <td colspan="8"><button type="button" class="btn btn-success  white-link"><a href="{% url 'cart:active_this_cart_and_home' cart.id %}">
-             <small><span class="glyphicon glyphicon-plus"></span></small>&nbsp;&nbsp; Přidat trička do tohoto košíku</a></button></td>
+        <td colspan="8"><a href="{% url 'cart:active_this_cart_and_home' cart.id %}" class="btn btn-success btn-lg white-link">
+             <small><span class="glyphicon glyphicon-plus"></span></small>&nbsp;&nbsp; Přidat trička do tohoto košíku</a></td>
     </tr>
     <tr>
         <td colspan="5"></td>
@@ -74,7 +107,7 @@
     </table>
     </div>
 
-    <!-- Delte particular cart pop-up confirmation. - Modal HTML -->
+    <!-- Delete particular cart pop-up confirmation. - Modal HTML -->
     <div id="myModal{{cart.id}}" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -84,9 +117,14 @@
                 </div>
                 <div class="modal-body">
                     <p>Opravdu chcete <b>smazat košík č. {{forloop.counter}}</b> se všemi položkami?</p>
-                    {%for item in cart.orderitems.all %}
+                    {%for image in images_in_order %}
+                        {% if image.belongs_to_order == cart.id %}
+                        <img src="{{ image.image.url }}" id="product_cart_image">
+                        {% endif %}
+                    {% endfor %} 
+                    <p>{%for item in cart.orderitems.all %}
                         <img src="{{ item.item.image.url }}" id="product_cart_image">
-                    {% endfor %}
+                    {% endfor %}</p>
                     <p class="text-secondary"><small></small></p>
                 </div>
                 <div class="modal-footer">
@@ -97,13 +135,38 @@
         </div>
     </div>
 
+    <!-- Select image from gallery. - Modal HTML -->
+    <div id="myModal_image{{cart.id}}" class="modal fade">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width: 160%; position: absolute; margin-left: -150px;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vybrat obrázek z galerie</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Vyberte si obrázek k tisku:</p>
+                    {%for image in gallery %}
+                    <div class="image_cart_select_block">
+                        <a href="{% url 'cart:add_image_to_cart' cart.id image.id %}"><img src="{{ image.image.url }}" class="image_cart_select_image"></a></br>
+                        {{ image.position.title }}
+                    </div>
+                    {% endfor %}
+                    <p class="text-secondary"><small></small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-lg white-link" data-dismiss="modal"><a href="">Zrušit</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 {% endfor %}
 
     <div class="center">
-    <button type="button" class="btn btn-info btn-lg white-link" ><a href="{% url 'cart:create_new_cart' %}">Vytvořit nový košík 
-        <span class="glyphicon glyphicon-shopping-cart"></span></a></button>
+    <a href="{% url 'cart:create_new_cart' %}" class="btn btn-info btn-lg white-link">Vytvořit nový košík 
+        <span class="glyphicon glyphicon-shopping-cart"></span></a>
     </div>
 </div>
 

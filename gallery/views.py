@@ -21,7 +21,7 @@ def index_view(request):
     anonymous_or_real(request)
     user = request.user
 
-    object_list = Image.objects.filter(user=user)
+    object_list = Image.objects.filter(user=user, basic_image=True).order_by('-created')
     return render(request, "gallery/index.html", { 'object_list':object_list})
 
 

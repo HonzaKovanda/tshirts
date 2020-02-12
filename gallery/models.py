@@ -27,6 +27,9 @@ class Image(models.Model):
     note = models.TextField(max_length=500, blank=True, null=True)
     created = models.DateTimeField('Created', auto_now_add=True)
     price = models.IntegerField(blank=True, null=True)
+    basic_image = models.BooleanField(default=False)
+    belongs_to_order = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.title
+

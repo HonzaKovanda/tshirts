@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth import get_user_model
 from products.models import Tshirt, Size
+from gallery.models import Image
 
 from products.apps import get_price_with_tax
 

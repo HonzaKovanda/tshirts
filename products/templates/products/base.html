@@ -33,16 +33,16 @@
             
         </span>
         <div class="white-link" style="text-align:center;">
-            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'products:home' %}">
-                Textil <span class="glyphicon glyphicon-search"></span></a></button>
-            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'gallery:home' %}">
-                Moje galerie <span class="glyphicon glyphicon-picture"></span></a></button>
+            <a href="{% url 'products:home' %}" class="btn btn-outline-success btn-lg">
+                Textil <span class="glyphicon glyphicon-search"></span></a>
+            <a href="{% url 'gallery:home' %}" class="btn btn-outline-success btn-lg">
+                Moje galerie <span class="glyphicon glyphicon-picture"></span></a>
             {% if user.is_authenticated %}
-            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}"> 
-                Košík <span class="glyphicon glyphicon-shopping-cart"></span>({{ request.user| cart_total }}ks)</a></button>
+            <a href="{% url 'cart:cart_view'%}" class="btn btn-outline-success btn-lg">
+                Košík <span class="glyphicon glyphicon-shopping-cart"></span>({{ request.user| cart_total }}ks)</a>
             {% else %} 
-            <button type="button" class="btn btn-outline-success btn-lg"><a href="{% url 'cart:cart_view'%}"> 
-                Košík <span class="glyphicon glyphicon-shopping-cart"></span></a></button>
+            <a href="{% url 'cart:cart_view'%}" class="btn btn-outline-success btn-lg"> 
+                Košík <span class="glyphicon glyphicon-shopping-cart"></span></a>
             {% endif %}    
         </div>      
     </div>

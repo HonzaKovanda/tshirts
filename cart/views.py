@@ -199,6 +199,12 @@ def delete_cart(request, cart_id):
     items.delete()
     cart.delete()
 
+    all_carts = Order.objects.filter(user=request.user, ordered=False,)
+    count_all_carts = Order.objects.filter(user=request.user, ordered=False,).count()
+    cart_id = all_carts[count_all_carts-1].pk
+    
+    active_this_cart(request, cart_id)
+
     messages.info(request, 'Košík byl úspěšně smazán.')
     return redirect("cart:cart_view")
 
@@ -212,10 +218,14 @@ def cart_view(request):
     user = request.user
 
     carts = Order.objects.filter(user=user, ordered=False)
+    gallery = Image.objects.filter(user=user, basic_image=True).order_by('-created')
+    images_in_order = Image.objects.filter(user=user, basic_image=False)
+    #number_of_images_in_cart
     order = [0]
+    anchor = 'active_cart'
     
 
-    return render(request, "cart/cart_home.html", { 'order':order, 'carts':carts,})
+    return render(request, "cart/cart_home.html", { 'order':order, 'carts':carts, 'gallery':gallery, 'images_in_order':images_in_order, 'anchor':anchor,})
 
 def active_this_cart(request, cart_id):
 
@@ -238,20 +248,32 @@ def active_this_cart_and_home(request, cart_id):
     return redirect("products:home")
 
 
+def add_image_to_cart(request, cart_id, image_id):
 
-def create_session(request):
-    request.session['name'] = 'username'
-    request.session['password'] = 'password88'
-    return HttpResponse("<h1>dataflair<br> the session is set</h1>")
-def access_session(request):
-    response = "<h1>Welcome to Sessions of dataflair</h1><br>"
-    if request.session.get('temporary_user_id'):
-        response += "Temp user ID : {0} <br>".format(request.session.get('temporary_user_id'))
-    if request.session.get('password'):
-        response += "Password : {0} <br>".format(request.session.get('password'))
-        return HttpResponse(response)
-    else:
-        return redirect('create/')
+    user = request.user
+
+    image = Image.objects.get(user=user, pk=image_id)
+    image.pk = None
+    image.basic_image = False
+    image.belongs_to_order = cart_id
+    image.save()
+
+    active_this_cart(request, cart_id)
+    return redirect("cart:cart_view")
+
+def remove_image_from_cart(request, cart_id, image_id):
+
+    user = request.user
+
+    image = Image.objects.get(user=user, pk=image_id)
+    image.delete()
+
+    active_this_cart(request, cart_id)
+    return redirect("cart:cart_view")
+
+
+
+
 
 
 
