@@ -45,6 +45,7 @@ class CreateImage(generic.edit.CreateView):
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user = request.user
+            obj.basic_image = True
             obj.save()
             return redirect(reverse("gallery:home"))
         else:
