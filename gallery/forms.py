@@ -19,7 +19,7 @@ class ImageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ImageForm, self).__init__(*args, **kwargs)
         self.fields['image'].widget.attrs={'id': 'files',}
-        self.fields['title'].widget.attrs={'id': 'title',}
+        self.fields['title'].widget.attrs={'id': 'title','placeholder':'např. "Moje firemní logo"'}
         
         
         """

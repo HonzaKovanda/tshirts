@@ -2,6 +2,7 @@
 
 {% load crispy_forms_tags %}
 
+
 {% block content %}
 
     <div class="upload_image_box">
@@ -25,9 +26,9 @@
                         <tr>
                             <td style="width:50%;">
                                 <div class="upload_image_frameX">
-                                    <img class="upload_image_image" src="/media/template_images/default_image.jpg" id="image" />
+                                    <img class="upload_image_image" src="https://tshirtsapp.s3.amazonaws.com/template_images/default_image.jpg" id="image" />
                                 </div>
-                                <p>Název uloženého obrázku můžete změnit:<br> (např. "Moje firemní logo")</p>
+                                <p>Název uloženého obrázku můžete změnit:<br> </p>
                                 {{ form.title }}
                             </td> 
                            
@@ -74,21 +75,21 @@
 <!--Get image for size of print-->
 <script>
     $(document).ready(function(){
-        $("#id_size_0").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_size_1").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_size_2").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_size_0").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_size_1").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_size_2").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
     });
 </script>
 
 <!--Get image for position of print-->
 <script>
     $(document).ready(function(){
-        $("#id_position_0").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_1").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_2").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_3").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_4").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_5").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_0").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_1").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_2").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_3").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_4").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_5").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
     });
 </script>
 

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import django_heroku
+from decouple import config
 
 
 
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^uu01plsncew=wb#1-7(fhg-^@ej^a71%ng1%753y!7g61cc#m'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -151,22 +152,24 @@ MEDIA_URL = '/media/'
 
 
 #set S3 as the place to store your files.
-DEFAULT_FILE_STORAGE = “storages.backends.s3boto3.S3Boto3Storage”
-STATICFILES_STORAGE = “storages.backends.s3boto3.S3Boto3Storage”
-AWS_ACCESS_KEY_ID = os.environ.get(“AWS_ACCESS_KEY_ID”, “”)
-AWS_SECRET_ACCESS_KEY = os.environ.get(“AWS_SECRET_ACCESS_KEY”, “”)
-AWS_STORAGE_BUCKET_NAME = os.environ.get(“AWS_STORAGE_BUCKET_NAME”, “”)
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+#AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', '')
 AWS_QUERYSTRING_AUTH = False #This will make sure that the file URL does not have unnecessary parameters like your access key.
-AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + ‘.s3.amazonaws.com’
+AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com'
 #static media settings
-STATIC_URL = ‘https://' + AWS_STORAGE_BUCKET_NAME + ‘.s3.amazonaws.com/’
-MEDIA_URL = STATIC_URL + ‘media/’
-STATICFILES_DIRS = ( os.path.join(BASE_DIR, “static”), )
-STATIC_ROOT = ‘staticfiles’
-ADMIN_MEDIA_PREFIX = STATIC_URL + ‘admin/’
+STATIC_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+MEDIA_URL = STATIC_URL + 'media/'
+MEDIA_ROOT = 'mediafiles'
+STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'), )
+STATIC_ROOT = 'staticfiles'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 STATICFILES_FINDERS = (
-‘django.contrib.staticfiles.finders.FileSystemFinder’,
-‘django.contrib.staticfiles.finders.AppDirectoriesFinder’,
+'django.contrib.staticfiles.finders.FileSystemFinder',
+'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 
