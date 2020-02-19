@@ -1,14 +1,13 @@
 {% extends 'products/base.html' %}
 
 {% load crispy_forms_tags %}
-{% load progress_bar %}
 
 {% block content %}
-{% progress_bar_media %}
+
 
     <div class="upload_image_box">
         
-            {% progress_bar %}
+
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}

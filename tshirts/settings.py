@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'storages',
     'sorl.thumbnail',
-    'progressbarupload',
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -199,24 +198,10 @@ STATICFILES_FINDERS = (
 )
 
 
-
 LOGIN_REDIRECT_URL = '/kosik/migrate_temp_user/'
 LOGOUT_REDIRECT_URL = '/'
 
 THUMBNAIL_FORMAT = 'PNG'
-
-
-#Progress bar
-FILE_UPLOAD_HANDLERS = (
-    "progressbarupload.uploadhandler.ProgressBarUploadHandler",
-    "django.core.files.uploadhandler.MemoryFileUploadHandler",
-    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
-)
-
-
-
-
-
 
 
 django_heroku.settings(locals())
