@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'model_clone',
     'crispy_forms',
     'storages',
+    'sorl.thumbnail',
     'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -157,7 +158,6 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-#AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', '')
 AWS_QUERYSTRING_AUTH = False #This will make sure that the file URL does not have unnecessary parameters like your access key.
 AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com'
 #static media settings
@@ -176,6 +176,15 @@ STATICFILES_FINDERS = (
 
 LOGIN_REDIRECT_URL = '/kosik/migrate_temp_user/'
 LOGOUT_REDIRECT_URL = '/'
+
+THUMBNAIL_FORMAT = 'PNG'
+
+
+
+
+
+
+
 
 
 django_heroku.settings(locals())

@@ -94,8 +94,9 @@ ul {
     border: 0.1px;
     border-style: solid;
     border-color: gray;
-    margin-right: -1px;
+    margin-right: 4px;
     display: inline-block;
+    float: left;
     text-decoration: none!important;
     
 }
@@ -154,6 +155,7 @@ ul {
     height: 150px;
     border: solid 1px;
     border-color: black;
+    background: rgb(243, 243, 243);
     line-height: 150px;
     text-align: center;
     
@@ -161,14 +163,12 @@ ul {
 }
 
 .images_cart_block_image_thumbnail {
-    max-width: 201px;
-    max-height: 151px;
+    max-width: 195px;
+    max-height: 145px;
     padding-bottom: 4px;
-
-
- 
-
 }
+
+
 
 .images_cart_block_new {
     width: 200px;
@@ -208,21 +208,26 @@ ul {
 .gallery_image_box {
     float: left;
     width: 200px;
-    height: 200px;
-    margin: 15px 15px;
+    height: 300px;
+    margin: 10px 10px;
 
 }
 
+
+.gallery_image_frame {
+    width: 200px;
+    height: 150px;
+    background: rgb(199, 199, 199);
+    line-height: 150px;
+    text-align: center;
+
+}
 
 .gallery_image_thumbnail {
-    max-width: 200px;
-    max-height: 150px;
-    border: 2px;
-    border-style: solid;
-    border-color: black;
+    max-width: 195px;
+    max-height: 145px;
 
 }
-
 
 .upload_image_box {
     width:850px;
@@ -246,11 +251,12 @@ ul {
     border-color: black;
 }
 
+
 /*Choose size of image in gallery CSS*/
 
 #id_size input[type="radio"]:checked + img {
     width:100%;
-    border: 1px dashed red;
+    border: 1px dashed rgb(42, 167, 11);
 }
 
 #id_size input[type="radio"] + img {
@@ -273,6 +279,10 @@ ul#id_size li{
 #id_size label{
     text-align: center;
     font-weightX: bold;
+}
+
+.image_size_radio_button {
+    max-width: 80px;
 }
 
 /*Choose position of image in gallery CSS*/
