@@ -26,4 +26,5 @@ urlpatterns = [
     path('galerie/', include('gallery.urls')),
     path('kosik/', include('cart.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('progressbarupload/', include('progressbarupload.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

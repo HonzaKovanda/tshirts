@@ -33,3 +33,15 @@ class Image(models.Model):
     def __str__(self):
         return self.title
 
+    def css_class(self):
+        extension = (self.image.name).split('.')[-1]
+        if extension == 'pdf':
+            return 'pdf'
+        if extension == 'jpeg':
+            return 'jpeg'
+        if extension == 'png':
+            return 'png'
+        if extension == 'jpg':
+            return 'jpg'
+        return 'other'
+

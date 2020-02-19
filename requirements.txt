@@ -5,6 +5,12 @@ Django==3.0.2
 django-clone==0.1.2
 django-crispy-forms==1.8.1
 django-heroku==0.3.1
+<<<<<<< HEAD
+=======
+django-progressbarupload==0.1.7
+django-storages==1.9.1
+docutils==0.15.2
+>>>>>>> 902a146... Upload image frame
 future==0.18.2
 gunicorn==20.0.4
 Pillow==7.0.0

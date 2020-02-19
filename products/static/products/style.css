@@ -230,21 +230,25 @@ ul {
     margin-top: 40px;
 }
 
-.upload_image_image {
-    max-width:400px; 
-    max-height:400px;
-    margin-bottom: 20px;
-    float: left;
+.upload_image_frame {
+    width:400px; 
+    height:255px;
+    border: 0.1px;
+    border-style: solid;
+    border-color: gray;
+    line-height: 250px;
+    text-align: center;
 }
 
-.upload_image_frameXXX {
-    width:300px;
-    height: 200px;
-    margin-top: 30px;
-    border: 1px;
-    border-style: dashed;
-    border-color: black;
+.upload_image_image {
+    max-width:390px; 
+    max-height:245px;
+    /*margin-bottom: 20px;*/
+
 }
+
+
+
 
 /*Choose size of image in gallery CSS*/
 

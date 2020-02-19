@@ -43,10 +43,12 @@ class CreateImage(generic.edit.CreateView):
     def post(self, request):
         form = self.form_class(request.POST, request.FILES,)
         if form.is_valid():
+            #messages.info(request, 'Nahrávám obrázek a vytvářím náhled')
             obj = form.save(commit=False)
             obj.user = request.user
             obj.basic_image = True
             obj.save()
+            messages.success(request, 'Obrázek byl úspěšně nahrán do galerie')
             return redirect(reverse("gallery:home"))
         else:
             alert = "Invalid form"
