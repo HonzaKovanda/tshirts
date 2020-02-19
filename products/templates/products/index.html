@@ -10,11 +10,11 @@
     <ul id="product_thumbnail">
             <li><a href="{% url 'products:detail' product.slug %}"> <img class=" rounded-top border img-thumbnail" 
                 src="{{ product.image.url }}" ></a></li>
-        <div class='card-footer text-center'>
+        <div class='card-footer center'>
             <li><strong><h3 class="card-title"> {{ product.title }}</h3></strong></li>
             <li>{% for tshirt in all_colors %}{% if tshirt.nomen_code == product.nomen_code %}
                 <a href="{% url 'products:detail' tshirt.slug %}"><div class="color_box_small" style="background-color:{{ tshirt.color.hexacode }}">
-                </div></a>{% endif %}{% endfor %}</li>
+                </div></a>{% endif %}{% endfor %}</li><br>
             <li class="green_price">Cena: {{ product.price_with_tax }} Kč <small>(s DPH)</small></li>
             <!--<li><p class="card-text">Cena bez DPH: {{ product.price }} Kč</p></li>-->
         </div>

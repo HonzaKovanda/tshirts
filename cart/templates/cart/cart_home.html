@@ -1,6 +1,7 @@
 {% extends 'products/base.html' %}
 {% load humanize %}
 {% load cart_tag %}
+{% load thumbnail %}
 
 {% block content %}
 
@@ -23,17 +24,26 @@ $(document).ready(function(){
 
         {%for image in images_in_order %}
             {% if image.belongs_to_order == cart.id %}
+                <div class="images_cart_block">
+                    <div class="images_cart_block_image">
+                        <a href="{{image.image.url}}" target='_blank'>
+                        
+                            {% if image.css_class == 'png' or image.css_class == 'jpg' %} 
+                                {% thumbnail image.image "x200" crop="center" as thumb %}
+                                <img src="{{thumb.url}}" class="images_cart_block_image_thumbnail"  onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image.jpg'">
+                                {% endthumbnail %} 
+                            {% else %}
+                                <img src="{{image.image.url}}" class="images_cart_block_image_thumbnail"  onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image_icon.png'">
+                            {% endif %}                       
 
-            <div class="images_cart_block">
-                <div class="images_cart_block_image">
-                    <a href="{{image.image.url}}" target=”_blank”><img class="images_cart_block_image_thumbnail" src="{{image.image.url}}" /></a> </br>
+                        </a></br>
+                    </div>
+                        <b>Název:</b> {{image.title}} <br>
+                        <b>Velikost:</b> {{image.size}} <br>
+                        <b>Umístění:</b> {{image.position}} <br>
+                        {% if image.note %}<b>Poznámka:</b> {{image.note}} <br>{% endif %} 
+                        <a href="{% url 'cart:remove_image_from_cart' cart.id image.id %}">Odebrat z košíku <span class="glyphicon glyphicon-trash"></span></a></br>          
                 </div>
-                    <b>Název:</b> {{image.title}} <br>
-                    <b>Velikost:</b> {{image.size}} <br>
-                    <b>Umístění:</b> {{image.position}} <br>
-                    {% if image.note %}<b>Poznámka:</b> {{image.note}} <br>{% endif %} 
-                    <a href="{% url 'cart:remove_image_from_cart' cart.id image.id %}">Odebrat z košíku <span class="glyphicon glyphicon-trash"></span></a></br>          
-            </div>
 
             {% endif %}
 
@@ -119,7 +129,15 @@ $(document).ready(function(){
                     <p>Opravdu chcete <b>smazat košík č. {{forloop.counter}}</b> se všemi položkami?</p>
                     {%for image in images_in_order %}
                         {% if image.belongs_to_order == cart.id %}
-                        <img src="{{ image.image.url }}" id="product_cart_image">
+
+                            {% if image.css_class == 'png' or image.css_class == 'jpg' %} 
+                                {% thumbnail image.image "x200" crop="center" as thumb %}
+                                <img src="{{thumb.url}}" id="product_cart_image" onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image.jpg'">
+                                {% endthumbnail %} 
+                            {% else %}
+                                <img src="{{image.image.url}}" id="product_cart_image" onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image_icon.png'">
+                            {% endif %}
+
                         {% endif %}
                     {% endfor %} 
                     <p>{%for item in cart.orderitems.all %}
@@ -146,10 +164,20 @@ $(document).ready(function(){
                 <div class="modal-body">
                     <p>Vyberte si obrázek k tisku:</p>
                     {%for image in gallery %}
-                    <div class="image_cart_select_block">
-                        <a href="{% url 'cart:add_image_to_cart' cart.id image.id %}"><img src="{{ image.image.url }}" class="image_cart_select_image"></a></br>
-                        {{ image.position.title }}
-                    </div>
+                        <div class="image_cart_select_block">
+                            <a href="{% url 'cart:add_image_to_cart' cart.id image.id %}">
+                            
+                                {% if image.css_class == 'png' or image.css_class == 'jpg' %} 
+                                    {% thumbnail image.image "x200" crop="center" as thumb %}
+                                    <img src="{{thumb.url}}" class="image_cart_select_image" onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image.jpg'">
+                                    {% endthumbnail %} 
+                                {% else %}
+                                    <img src="{{image.image.url}}" class="image_cart_select_image" onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image_icon.png'">
+                                {% endif %}
+
+                            </a></br>
+                            {{ image.position.title }}
+                        </div>
                     {% endfor %}
                     <p class="text-secondary"><small></small></p>
                 </div>

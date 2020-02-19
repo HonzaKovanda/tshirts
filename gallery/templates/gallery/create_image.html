@@ -17,7 +17,7 @@
                     <table style="width:100%; " border=0>
                         <tr>
                             <td style="height:30px;">
-                                <p><b>Vyberte obrázek z počítače:</b><br>
+                                <p><b>Vyberte obrázek z počítače:</b> png, jpg, jpeg, pdf<br>
                                 {{ form.image}}
                             </td>
                             <td rowspan=2 valign="top">
@@ -33,7 +33,7 @@
                                     <img class="upload_image_image" src="https://tshirtsapp.s3.amazonaws.com/template_images/default_image.jpg" 
                                         id="image" onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image_icon.png'" />
                                 </div>
-                                <p>Název uloženého obrázku můžete změnit:<br> (např. "Moje firemní logo")</p>
+                                <p>Název uloženého obrázku můžete změnit:<br> </p>
                                 {{ form.title }}
                             </td> 
                            
@@ -50,7 +50,7 @@
         </form>
     </div>
 
-<!--Show image to upload-->
+<!--Show image for upload-->
 <script>
     document.getElementById("files").onchange = function () {
         var reader = new FileReader();
@@ -68,11 +68,17 @@
 <!--Get file name in title field-->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+
+    var splitByLastDot = function(text) {
+        var index = text.lastIndexOf('.');
+        return [text.slice(0, index)]
+    }
+
     $(document).ready(function(){
         $('input[type="file"]').change(function(e){
             var fileName = e.target.files[0].name;
             /*alert('The file "' + fileName +  '" has been selected.');*/
-            document.getElementById("title").value = fileName
+            document.getElementById("title").value = splitByLastDot(fileName)
         });
     });
 </script>
@@ -80,21 +86,21 @@
 <!--Get image for size of print-->
 <script>
     $(document).ready(function(){
-        $("#id_size_0").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_size_1").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_size_2").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_size_0").after('<img class="image_size_radio_button" src="https://tshirtsapp.s3.amazonaws.com/template_images/Rozmer1.png"/><br>')
+        $("#id_size_1").after('<img class="image_size_radio_button" src="https://tshirtsapp.s3.amazonaws.com/template_images/Rozmer2.png"/><br>')
+        $("#id_size_2").after('<img class="image_size_radio_button" src="https://tshirtsapp.s3.amazonaws.com/template_images/Rozmer3.png"/><br>')
     });
 </script>
 
 <!--Get image for position of print-->
 <script>
     $(document).ready(function(){
-        $("#id_position_0").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_1").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_2").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_3").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_4").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
-        $("#id_position_5").after('<img src="/media/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_0").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_1").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_2").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_3").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_4").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
+        $("#id_position_5").after('<img src="https://tshirtsapp.s3.amazonaws.com/template_images/black_tshirt.jpg"/><br>')
     });
 </script>
 

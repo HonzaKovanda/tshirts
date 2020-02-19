@@ -217,10 +217,10 @@ def cart_view(request):
 
     user = request.user
 
-    carts = Order.objects.filter(user=user, ordered=False)
+    carts = Order.objects.filter(user=user, ordered=False).order_by('created')
     gallery = Image.objects.filter(user=user, basic_image=True).order_by('-created')
-    images_in_order = Image.objects.filter(user=user, basic_image=False)
-    #number_of_images_in_cart
+    images_in_order = Image.objects.filter(user=user, basic_image=False).order_by('created')
+
     order = [0]
     anchor = 'active_cart'
     
