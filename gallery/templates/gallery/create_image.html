@@ -1,11 +1,16 @@
 {% extends 'products/base.html' %}
 
 {% load crispy_forms_tags %}
+{% load progress_bar %}
 
 
 {% block content %}
+{% progress_bar_media %}
 
     <div class="upload_image_box">
+        
+            {% progress_bar %}
+
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             
@@ -25,7 +30,7 @@
                         </tr>
                         <tr>
                             <td style="width:50%;">
-                                <div class="upload_image_frameX">
+                                <div class="upload_image_frame">
                                     <img class="upload_image_image" src="https://tshirtsapp.s3.amazonaws.com/template_images/default_image.jpg" 
                                         id="image" onerror="this.src='https://tshirtsapp.s3.amazonaws.com/template_images/default_image_icon.png'" />
                                 </div>
@@ -37,7 +42,7 @@
                     </table>
                 </div>
 
-
+                
             <div class="center">
                 <button type="submit" class="btn btn-success btn-lg" style="width: 50%; margin-top: 25px; margin-bottom: 15px ;">Uložit obrázek 
                     <span class="glyphicon glyphicon-upload"></span></button> <br>

@@ -67,8 +67,8 @@ class Image(models.Model):
         extension = (self.image.name).split('.')[-1]
         if extension == 'pdf':
             return 'pdf'
-        if extension == 'xlsx':
-            return 'xlsx'
+        if extension == 'jpeg':
+            return 'jpeg'
         if extension == 'png':
             return 'png'
         if extension == 'jpg':
