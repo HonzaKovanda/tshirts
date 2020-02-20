@@ -20,4 +20,5 @@ urlpatterns = [
     path('delete_cart/<int:cart_id>/', views.delete_cart, name='delete_cart'),
     path('logout-in/', views.logout_in, name='logout_in'),
     path('migrate_temp_user/', views.migrate_temp_user, name='migrate_temp_user'),
+    path('login_by_hash/<hash>/', views.login_by_hash, name='login_by_hash'),
 ]

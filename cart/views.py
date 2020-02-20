@@ -14,10 +14,17 @@ from gallery.models import Image
 from django.contrib.auth.models import User
 from random import randint
 from django.contrib.auth import authenticate, login, logout
-#from products.views import index_view
+
 
 
 def anonymous_or_real(request):
+
+    temp_user = request.session.get('temporary_user_id', None)
+    if temp_user:
+        u = User.objects.get(pk=temp_user)
+        login(request, u)
+
+
     user = request.user
     if user.is_authenticated:
         return user
@@ -72,6 +79,10 @@ def migrate_temp_user(request):
         pass
     return redirect("products:home")
 
+def login_by_hash(request, hash):
+    u = User.objects.get(password=hash)
+    login(request, u)
+    return redirect("products:home")
 
 
 # Sign up
