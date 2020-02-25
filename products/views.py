@@ -22,14 +22,14 @@ class IndexView(generic.ListView):
 
 def index_view(request):
     object_list = Tshirt.objects.filter(cover=True)
-    all_colors = Tshirt.objects.filter()
+    all_colors = Tshirt.objects.filter().order_by('id')
 
     return render(request, 'products/index.html', {'object_list': object_list, 'all_colors': all_colors })
 
 
 def tshirt_detail(request, slug):
     tshirt = get_object_or_404(Tshirt, slug=slug)
-    all_colors = Tshirt.objects.filter(nomen_code=tshirt.nomen_code)
+    all_colors = Tshirt.objects.filter(nomen_code=tshirt.nomen_code).order_by('id')
 
     # Get items stock status
     data = load_stock()
