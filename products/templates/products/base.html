@@ -13,7 +13,7 @@
 </head>
 
 <header>
-    Temp user session ID: {{ request.session.temporary_user_id }} Přihlášený uživatel ID: {{request.user.id}} 
+    {% comment %}Temp user session ID: {{ request.session.temporary_user_id }} Přihlášený uživatel ID: {{request.user.id}} {% endcomment %}
     <div class="flex_box p-4 mb-3 bg-dark" >  
         <span class="login_label">
             {% if user.is_authenticated %}

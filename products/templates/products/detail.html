@@ -27,9 +27,10 @@
         </form> 
 
     </p></li>
+    <li><p><b>Na skladě: </b></p>
     {% for number in on_stock  %}
-    <li><p>Na skladě: <b>{{ number }} ks</b></p></li>
-    {% endfor %}
+    {{ number }} ks<br></li>
+    {% endfor %}<br>
     <li class="green_price"><h3>Cena {{ tshirt.price_with_tax }} Kč <small>(s DPH)</small></h3></li>
     <li><p>Cena {{ tshirt.price }} Kč <small>(bez DPH)</small></p></li>
     <li><input type="submit" value="Přidat do košíku" form="sizeForm" class="btn btn-success btn-lg text-white">

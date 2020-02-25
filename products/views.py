@@ -8,7 +8,7 @@ from django.views import generic
 from cart.views import migrate_temp_user
 
 from .models import Tshirt
-from .adler_stock import stock_status
+from .adler_stock import load_stock, stock_status
 
 
 """
@@ -32,6 +32,8 @@ def tshirt_detail(request, slug):
     all_colors = Tshirt.objects.filter(nomen_code=tshirt.nomen_code)
 
     # Get items stock status
+    data = load_stock()
+
     nomen_tshirt = tshirt.nomen_code
     nomen_color = tshirt.color.nomen_code
     nomen_size = tshirt.size.all()
@@ -40,8 +42,8 @@ def tshirt_detail(request, slug):
 
     for size in nomen_size:
         nomen = str(nomen_tshirt) + str(nomen_color) + str(size.nomen_code)
-        i = str(size.title) +' - '+ str(stock_status(nomen))
-        on_stock.append(i)
+        size_and_stock = str(size.title) +' - '+ str(stock_status(data, nomen))
+        on_stock.append(size_and_stock)
 
     return render(request, 'products/detail.html', {'tshirt': tshirt, 'all_colors' : all_colors, 'on_stock' : on_stock,})
 
