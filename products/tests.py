@@ -9,14 +9,15 @@ import tempfile
 
 from .apps import get_price_with_tax
 from .adler_stock import load_stock, stock_status
-from .models import Color, Tshirt, Category, Supplier
+from .models import Color, Tshirt, Category, Supplier, ProductsSettings
+from .views import create_new_tshirt
 
 
 class ProductsTests (TestCase):
 
     def test_get_price_with_tax(self):
-        DPH = 1.21
-        assert get_price_with_tax(100) == (100*DPH)
+        DPH = ProductsSettings.objects.create(DPH=21)
+        assert get_price_with_tax(100, DPH.DPH) == 100*(DPH.DPH/100 + 1)
     
     def test_load_stock(self):
         r = requests.get(config('ADLER_JSON'))
@@ -36,14 +37,26 @@ class ProductsTests (TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'products/index.html')
 
-    def test_products_detail_view(self):
+
+
+    def test_create_new_tshirt(self):
+        title = 'Basic' 
+        slug = 'basic-cerna' 
+        price = 200
         category = Category.objects.create()
-        Supplier.objects.create()
-        color = Color.objects.get(id=1)
+        supplier = Supplier.objects.create()
+        nomen_code="1290116"
+        color = Color.objects.create(title='Černá')
         image = tempfile.NamedTemporaryFile(suffix=".jpg").name
 
-        tshirt = Tshirt.objects.create(title='Pure', slug='pure-cerna', price=200, category=category, 
-        nomen_code="1220115", color=color, image=image,)
+        tshirt = Tshirt.objects.create(title=title, slug=slug, price=price, category=category, supplier=supplier,
+        nomen_code=nomen_code, color=color, image=image,)
+
+        assert create_new_tshirt('Basic', 'basic-cerna', 200, '1290116', 'Černá') == tshirt
+
+
+    def test_products_detail_view(self):
+        tshirt = create_new_tshirt('Basic', 'basic-cerna', 200, '1290116', 'Černá')
 
         response = self.client.get(reverse('products:detail', args=(tshirt.slug,)))
         self.assertEqual(response.status_code, 200) 

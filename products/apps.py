@@ -6,7 +6,7 @@ class ProductsConfig(AppConfig):
 
 
 # Increases price amount by 21% DPH.
-def get_price_with_tax(price):
-        DPH = 1.21
+def get_price_with_tax(price, dph):
+        DPH = 1 + dph/100.0
         price_with_tax = round(float(price) * DPH)
         return price_with_tax

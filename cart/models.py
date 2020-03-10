@@ -1,10 +1,11 @@
 from django.db import models
 
 from django.contrib.auth import get_user_model
-from products.models import Tshirt, Size
+from products.models import Tshirt, Size, ProductsSettings
 from gallery.models import Image
 
 from products.apps import get_price_with_tax
+
 
 
 
@@ -27,8 +28,8 @@ class Item(models.Model):
         return self.item.price * self.quantity
 
     def get_total_with_tax(self):
-        #return format(get_price_with_tax(self.item.price) * self.quantity,",").replace(",", " ")
-        return get_price_with_tax(self.item.price * self.quantity)
+        DPH = ProductsSettings.objects.get(pk=1)
+        return get_price_with_tax(self.item.price * self.quantity, DPH.DPH)
 
 # Order Model 
 class Order(models.Model):
@@ -51,7 +52,8 @@ class Order(models.Model):
 
     def get_totals_with_tax(self):
         total = 0
+        DPH = ProductsSettings.objects.get(pk=1)
         for order_item in self.orderitems.all():
-            total = total + get_price_with_tax(order_item.get_total())
+            total = total + get_price_with_tax(order_item.get_total(), DPH.DPH)
         
         return total

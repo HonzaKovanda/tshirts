@@ -7,8 +7,9 @@ from django.http import HttpResponseRedirect
 from django.views import generic
 from cart.views import migrate_temp_user
 
-from .models import Tshirt
+from .models import Tshirt, Category, Supplier, Color
 from .adler_stock import load_stock, stock_status
+import tempfile
 
 
 """
@@ -61,4 +62,20 @@ class DescriptionUpdate(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse('products:detail', args=(self.object.slug, ))
+
+
+def create_new_tshirt(title, slug, price, nomen_code, color):
+    title = title 
+    slug = slug 
+    price = price
+    category = Category.objects.create()
+    supplier = Supplier.objects.create()
+    nomen_code = nomen_code
+    color = Color.objects.create(title='Černá')
+    image = tempfile.NamedTemporaryFile(suffix=".jpg").name
+
+    tshirt = Tshirt.objects.create(title=title, slug=slug, price=price, category=category, supplier=supplier,
+    nomen_code=nomen_code, color=color, image=image,)
+
+    return tshirt
 

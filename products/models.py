@@ -48,7 +48,11 @@ class Tshirt(models.Model):
         return self.title
 
     def price_with_tax(self):
-        return get_price_with_tax(self.price)
+        DPH = ProductsSettings.objects.get(pk=1)
+        return get_price_with_tax(self.price, DPH.DPH)
+
+class ProductsSettings(models.Model):
+    DPH = models.IntegerField(null=True)
 
 
 
