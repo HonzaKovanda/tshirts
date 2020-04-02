@@ -15,8 +15,51 @@ from django.contrib.auth.models import User
 from random import randint
 from django.contrib.auth import authenticate, login, logout
 
+import typing
+
+def pozdrav(slovo: str) -> str:
+    if slovo == 'ahoj':
+        vysledek = 'tykani'
+    elif slovo == 'dobry den':
+        vysledek = 'vykani'
+    return vysledek
+
+def check_if_temp_user_exists_and_log_in(request):
+    temp_user = request.session.get('temporary_user_id', None)
+    if temp_user:
+        u = User.objects.get(pk=temp_user)
+        return login(request, u)
+    else:
+        pass
+
+def get_random_number_as_name() -> int:
+    return int(randint(1, 100000))
+
+def create_anonymous_user(rand_number: User) -> User:
+    u = User(username=rand_number, first_name='User', last_name=rand_number)
+    u.set_unusable_password()
+    u.save()
+
+    u.username = u.id
+    u.save()
+    return u
+
+def anonymous_or_real(request):
+
+    check_if_temp_user_exists_and_log_in(request)
+    
+    user = request.user
+    if user.is_authenticated:
+        pass
+    else:
+        rand_number = get_random_number_as_name()
+        u = create_anonymous_user(rand_number)
+
+        request.session['temporary_user_id'] = u.id
+        return login(request, u)
 
 
+"""
 def anonymous_or_real(request):
 
     temp_user = request.session.get('temporary_user_id', None)
@@ -44,6 +87,7 @@ def anonymous_or_real(request):
         #authenticate(user=u)
         login(request, u)
         return u
+"""
 
 def logout_in(request):
     temp_user = request.session.get('temporary_user_id', None)

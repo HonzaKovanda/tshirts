@@ -1,6 +1,7 @@
 *.pyc
 db.sqlite3
 venv
+venvdell
 __pycache__
 **/__pycache__/
 media

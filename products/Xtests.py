@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-
 from decouple import config
 import requests
 from django.urls import reverse
@@ -12,8 +11,15 @@ from .adler_stock import load_stock, stock_status
 from .models import Color, Tshirt, Category, Supplier, ProductsSettings
 from .views import create_new_tshirt
 
+from selenium import webdriver
+
 
 class ProductsTests (TestCase):
+
+    def test_homepage_title(self):
+        browser = webdriver.Firefox()
+        browser.get('http://localhost:8000')
+        assert 'E-shop s tričky' in browser.title
 
     def test_get_price_with_tax(self):
         DPH = ProductsSettings.objects.create(DPH=21)
@@ -39,7 +45,7 @@ class ProductsTests (TestCase):
 
 
 
-    def test_create_new_tshirt(self):
+    def create_new_tshirt(self):
         title = 'Basic' 
         slug = 'basic-cerna' 
         price = 200
