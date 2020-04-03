@@ -59,6 +59,10 @@ def anonymous_or_real(request):
         return login(request, u)
 
 
+# když existuje temp user, tak ho přihlásí
+# když je uživatel přihlášen, nic se nestane
+# když není nic, vytvoří se nový uživatel, ID jde so session a přihlásí se
+
 """
 def anonymous_or_real(request):
 

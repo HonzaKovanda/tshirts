@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.test import RequestFactory
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 from .views import pozdrav
 from .views import check_if_temp_user_exists_and_log_in, get_random_number_as_name, create_anonymous_user, anonymous_or_real
@@ -53,10 +53,16 @@ class AnonymousOrRealTestCase(TestCase):
         user = create_anonymous_user(rand_number)
         self.assertEqual('User', user.first_name)
         self.assertEqual(2, user.id)
-        print('uzivatel:', user.id)
+        print('create_anonymous_user ID:', user.id)
         
         users = User.objects.all()
         self.assertEqual(users.count(), 2)
+
+        User.objects.create(pk=3, username='Joey')
+
+        print('tady by měli bej 3:', users)
+        druhy = User.objects.get(pk=2)
+        print('a druhý je:', druhy.last_name)
 
     def test_anonymous_or_real(self):
         request = RequestFactory().get('/')
@@ -70,16 +76,29 @@ class AnonymousOrRealTestCase(TestCase):
         request.session['temporary_user_id'] = 1
         request.user = request.session['temporary_user_id']
 
+        #if user IS logged
         login(request, user)
         anonymous_or_real(request)
         user = request.user
+        print('if user IS logged:', user.id)
         self.assertTrue(user.is_authenticated)
 
+        #if user is NOT logged
+        del request.session['temporary_user_id']
+        logout(request)
+        anonymous_or_real(request)
+        user = request.user
+        print('if user is NOT logged:', user.id)
+        self.assertTrue(user.is_authenticated)
+
+        users = User.objects.all()
+        self.assertEqual(users.count(), 2)
+        print('a nakonec zbyl:', users)
+        druhy = User.objects.get(pk=2)
+        print('a druhý je:', druhy.last_name)
 
 
 
-
-        print(user.username)
 
     
 
