@@ -15,14 +15,6 @@ from django.contrib.auth.models import User
 from random import randint
 from django.contrib.auth import authenticate, login, logout
 
-import typing
-
-def pozdrav(slovo: str) -> str:
-    if slovo == 'ahoj':
-        vysledek = 'tykani'
-    elif slovo == 'dobry den':
-        vysledek = 'vykani'
-    return vysledek
 
 def check_if_temp_user_exists_and_log_in(request):
     temp_user = request.session.get('temporary_user_id', None)
@@ -58,10 +50,6 @@ def anonymous_or_real(request):
         request.session['temporary_user_id'] = u.id
         return login(request, u)
 
-
-# když existuje temp user, tak ho přihlásí
-# když je uživatel přihlášen, nic se nestane
-# když není nic, vytvoří se nový uživatel, ID jde so session a přihlásí se
 
 """
 def anonymous_or_real(request):

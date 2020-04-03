@@ -6,17 +6,8 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 
-from .views import pozdrav
 from .views import check_if_temp_user_exists_and_log_in, get_random_number_as_name, create_anonymous_user, anonymous_or_real
 
-
-class PozdravTestCase(TestCase):
-    def test_pozdrav(self):
-        reknu = 'ahoj'
-        slovo = pozdrav(reknu)
-        #self.assertEqual('vykani', slovo)
-        self.assertTrue(slovo == 'tykani' or slovo == 'vykani')
-        self.assertTrue(slovo.isalpha())
 
 class AnonymousOrRealTestCase(TestCase):
     def setUp(self):
@@ -30,19 +21,26 @@ class AnonymousOrRealTestCase(TestCase):
         middleware.process_request(request)
         request.session.save()
 
+        # if temp user exists in session
         request.session['temporary_user_id'] = 1
         temp_user = request.session['temporary_user_id']
 
         request.user = temp_user
-        #print('Before func ',request.user)
-
         check_if_temp_user_exists_and_log_in(request)
-        #print('After func ',request.user.username)
+
 
         logged_user = request.user
         self.assertTrue(logged_user.is_authenticated)
         self.assertEqual(temp_user, logged_user.id)
         self.assertIn(logged_user.username, 'Joe')
+
+        # if temp user NOT exists in session
+        del request.session['temporary_user_id']
+
+        check_if_temp_user_exists_and_log_in(request)
+        temp_user = request.session.get('temporary_user_id', None)
+        self.assertFalse(temp_user)
+
 
     def test_get_random_number_as_name(self):
         rand_number = get_random_number_as_name()
@@ -53,16 +51,10 @@ class AnonymousOrRealTestCase(TestCase):
         user = create_anonymous_user(rand_number)
         self.assertEqual('User', user.first_name)
         self.assertEqual(2, user.id)
-        print('create_anonymous_user ID:', user.id)
+        print('create_anonymous_user - user ID:', user.id)
         
         users = User.objects.all()
         self.assertEqual(users.count(), 2)
-
-        User.objects.create(pk=3, username='Joey')
-
-        print('tady by měli bej 3:', users)
-        druhy = User.objects.get(pk=2)
-        print('a druhý je:', druhy.last_name)
 
     def test_anonymous_or_real(self):
         request = RequestFactory().get('/')
@@ -80,7 +72,7 @@ class AnonymousOrRealTestCase(TestCase):
         login(request, user)
         anonymous_or_real(request)
         user = request.user
-        print('if user IS logged:', user.id)
+        print('if user IS logged - user ID:', user.id)
         self.assertTrue(user.is_authenticated)
 
         #if user is NOT logged
@@ -88,14 +80,12 @@ class AnonymousOrRealTestCase(TestCase):
         logout(request)
         anonymous_or_real(request)
         user = request.user
-        print('if user is NOT logged:', user.id)
+        print('if user is NOT logged - user ID:', user.id)
         self.assertTrue(user.is_authenticated)
 
         users = User.objects.all()
         self.assertEqual(users.count(), 2)
-        print('a nakonec zbyl:', users)
-        druhy = User.objects.get(pk=2)
-        print('a druhý je:', druhy.last_name)
+
 
 
 
